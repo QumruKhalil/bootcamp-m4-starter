@@ -2,42 +2,46 @@ import React, { Component } from 'react';
 import './SearchBox.css';
 
 class SearchBox extends Component {
-    state = {
-        searchLine: ''
+    state= {
+        value: ''
     }
-    searchLineChangeHandler = (e) => {
-        this.setState({ searchLine: e.target.value });
-    }
-    searchBoxSubmitHandler = (e) => {
-        e.preventDefault();
-    }
-    render() {
-        const { searchLine } = this.state;
 
-        return (
-            <div className="search-box">
-                <form className="search-box__form" onSubmit={this.searchBoxSubmitHandler}>
-                    <label className="search-box__form-label">
-                        Искать фильм по названию:
-                        <input
-                            value={searchLine}
-                            type="text"
-                            className="search-box__form-input"
-                            placeholder="Например, Shawshank Redemption"
-                            onChange={this.searchLineChangeHandler}
-                        />
-                    </label>
-                    <button
-                        type="submit"
-                        className="search-box__form-submit"
-                        disabled={!searchLine}
-                    >
-                        Искать
-                    </button>
-                </form>
-            </div>
-        );
+    searchBoxSubmitHandler = (e) => {
+        e.preventDefault();  
+        this.props.onSubmit(e.target.search.value);
     }
+
+    handleSearchChange = (e) => {
+        this.setState({ value: e.target.value })
+    }
+render() {
+    const { value } = this.state;
+
+    return (
+        <div className="search-box">
+            <form className="search-box__form" onSubmit={this.searchBoxSubmitHandler}>
+                <label className="search-box__form-label">
+                    Искать фильм по названию:
+                    <input
+                        name="search"
+                        type="text"
+                        className="search-box__form-input"
+                        placeholder="Например, Shawshank Redemption"
+                        value={value}
+                        onChange={this.handleSearchChange}
+                    />
+                </label>
+                <button
+                    type="submit"
+                    className="search-box__form-submit"
+                    disabled={!value}
+                >
+                    Искать
+                </button>
+            </form>
+        </div>
+    );
 }
- 
+}
+
 export default SearchBox;
